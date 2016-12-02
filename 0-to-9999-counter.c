@@ -1,13 +1,14 @@
 /*
  * Author: Rafael Zaleski
  *
- * The selector pin (common cathode for each digit) changes every 5ms to display 
+ * The selector pin changes every 5ms to display 
  * different numbers using the common pins 'a' to 'g' in the display. 
  *
- * Don't forget that you have to change the code if your display is common anode
+ * I also changed the order of the multiplexing of 5ms from D1 to D4
+ * So the timer builds up quickly from right to left, rather than left to right.
  */
 
-int a = 1, b = 2, c = 3, d = 4, e = 5, f = 6, g = 7, dp = 8; //Display pins
+int a = 2, b = 3, c = 4, d = 5, e = 6, f = 7, g = 8, dp = 0; //Display pins
 
 int d1 = 9, d2 = 10, d3 = 11, d4 = 12; //Common pins
 
@@ -31,25 +32,25 @@ void loop() {
   //The counter
   for(i = 0; i<10000; i++) {
     for(j = 0; j <= (time/20); j++) {
-      ond(d1);
+      ond(d4);
       num(i%10);
       delay(5);
-      offd(d1);
-      
-      ond(d2);
-      num(i/10 - 10*(i/100));
-      delay(5);
-      offd(d2);
+      offd(d4);
       
       ond(d3);
-      num(i/100 - 10*(i/1000));
+      num(i/10 - 10*(i/100));
       delay(5);
       offd(d3);
       
-      ond(d4);
+      ond(d2);
+      num(i/100 - 10*(i/1000));
+      delay(5);
+      offd(d2);
+      
+      ond(d1);
       num(i/1000);
       delay(5);
-      offd(d4);    
+      offd(d1);    
     }    
     
   } 
@@ -57,19 +58,19 @@ void loop() {
 }
 
 void on(int i) {
-  digitalWrite(i, HIGH);
-}
-
-void off(int i){
- digitalWrite(i, LOW); 
-}
-
-void ond(int i) {
   digitalWrite(i, LOW);
 }
 
-void offd(int i){
+void off(int i){
  digitalWrite(i, HIGH); 
+}
+
+void ond(int i) {
+  digitalWrite(i, HIGH);
+}
+
+void offd(int i){
+ digitalWrite(i, LOW); 
 }
 
 void num(int n) {
