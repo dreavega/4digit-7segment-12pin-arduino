@@ -12,3 +12,7 @@ I'm using a basic 4-dig 7seg Display (Blue) from https://www.sparkfun.com/produc
 NOTE** 16 pins, opposed to 12, so you may need to redirect your pins
 use 330 ohms resistors to protect your display.
 ** (I used 220 ohms resistors and they worked just fine.)
+
+I also changed the order of the multiplexing of 5ms from D1 to D4
+ * So the timer builds up quickly from right to left, rather than left to right.
+ 
